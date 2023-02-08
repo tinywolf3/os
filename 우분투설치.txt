@@ -1,0 +1,1247 @@
+[업데이트]
+$ sudo apt update
+$ sudo apt upgrade
+
+
+[언어 설정]
+- "언어 지원" 실행해서 부족분 추가 설치
+
+- IBus 한글 설정
+	한영전환키
+	Hangul
+	Shift+space
+	Alt_R
+	Control+space
+
+- 현재 가장 입력을 잘 지원하는 im은 fcitx이지만,
+  일부 원격데스크탑 프로그램에서 오작동이 심함
+
+
+[기본 도구 설치]
+$ sudo apt install software-properties-common apt-transport-https curl wget git bat jq libfuse2 build-essential python3-pip python-is-python3 gnome-tweaks
+
+
+[폰트 설치]
+
+
+[rEFInd 설치]
+* https://www.rodsbooks.com/refind/installing.html#packagefile
+$ sudo apt-add-repository ppa:rodsmith/refind
+$ sudo apt install refind
+
+$ sudo nano /etc/default/grub
+- 다음의 항목들을 활성화 또는 수정
+---- grub ----
+GRUB_TIMEOUT=1
+--------
+
+$ sudo update-grub
+
+* https://www.rodsbooks.com/refind/configfile.html
+
+$ sudo nano /boot/efi/EFI/refind/refind.conf
+- 다음의 항목들을 활성화 또는 수정
+---- refind.conf ----
+timeout 5
+--------
+
+$ sudo refind-install
+
+
+[nano 기초 설정]
+$ sudo nano /etc/nanorc
+- 다음의 항목들을 활성화 또는 수정
+---- nanorc ----
+set autoindent
+set brackets ""')>]}"
+set constantshow
+set historylog
+set indicator
+set linenumbers
+set locking
+set matchbrackets "(<[{)>]}"
+set smarthome
+set stateflags
+set tabsize 4
+set whitespace "»·"
+set stripecolor ,grey
+set scrollercolor yellow,grey
+set numbercolor black,blue
+--------
+
+
+[zsh 설치]
+* https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH#ubuntu-debian--derivatives-windows-10-wsl--native-linux-kernel-with-windows-10-build-1903
+
+$ sudo apt install zsh
+
+$ chsh -s $(which zsh)
+
+- 로그아웃/로그인
+
+- zsh 초기화 2번 선택
+
+$ echo $SHELL
+/usr/bin/zsh
+
+* https://github.com/ohmyzsh/ohmyzsh/wiki#welcome-to-oh-my-zsh
+
+$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+* https://github.com/romkatv/powerlevel10k#oh-my-zsh
+
+$ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+
+$ nano ~/.zshrc
+- 다음의 항목들을 활성화 또는 수정
+---- .zshrc ----
+ZSH_THEME="powerlevel10k/powerlevel10k"
+--------
+
+- 터미널 종료 후 재실행
+
+- p10k 테마 설정
+- font set > rainbow > unicode > 24-hours > vertical > sharp > flat > two-lines > dotted > no frame > darkest > spars > many icons > fluent > verbose
+
+$ nano ~/.zshrc
+- 다음의 항목들을 활성화 또는 수정
+---- .zshrc ----
+HIST_STAMPS="yyyy-mm-dd"
+--------
+
+$ nano ~/.p10k.zsh
+- 다음의 항목들을 활성화 또는 수정
+---- .p10k.zsh ----
+  typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
+    # =========================[ Line #1 ]=========================
+    os_icon                 # os identifier
+    dir                     # current directory
+    vcs                     # git status
+    # =========================[ Line #2 ]=========================
+    newline                 # \n
+    prompt_char             # prompt symbol
+  )
+...
+  typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
+    # =========================[ Line #1 ]=========================
+    status                  # exit code of the last command
+    command_execution_time  # duration of the last command
+    background_jobs         # presence of background jobs
+    direnv                  # direnv status (https://direnv.net/)
+    asdf                    # asdf version manager (https://github.com/asdf-vm/asdf)
+    virtualenv              # python virtual environment (https://docs.python.org/3/library/venv.html)
+    anaconda                # conda environment (https://conda.io/)
+    pyenv                   # python environment (https://github.com/pyenv/pyenv)
+    goenv                   # go environment (https://github.com/syndbg/goenv)
+    nodenv                  # node.js version from nodenv (https://github.com/nodenv/nodenv)
+    nvm                     # node.js version from nvm (https://github.com/nvm-sh/nvm)
+    nodeenv                 # node.js environment (https://github.com/ekalinin/nodeenv)
+    # node_version          # node.js version
+    # go_version            # go version (https://golang.org)
+    # rust_version          # rustc version (https://www.rust-lang.org)
+    # dotnet_version        # .NET version (https://dotnet.microsoft.com)
+    # php_version           # php version (https://www.php.net/)
+    # laravel_version       # laravel php framework version (https://laravel.com/)
+    # java_version          # java version (https://www.java.com/)
+    # package               # name@version from package.json (https://docs.npmjs.com/files/package.json)
+    rbenv                   # ruby version from rbenv (https://github.com/rbenv/rbenv)
+    rvm                     # ruby version from rvm (https://rvm.io)
+    fvm                     # flutter version management (https://github.com/leoafarias/fvm)
+    luaenv                  # lua version from luaenv (https://github.com/cehoffman/luaenv)
+    jenv                    # java version from jenv (https://github.com/jenv/jenv)
+    plenv                   # perl version from plenv (https://github.com/tokuhirom/plenv)
+    perlbrew                # perl version from perlbrew (https://github.com/gugod/App-perlbrew)
+    phpenv                  # php version from phpenv (https://github.com/phpenv/phpenv)
+    scalaenv                # scala version from scalaenv (https://github.com/scalaenv/scalaenv)
+    haskell_stack           # haskell version from stack (https://haskellstack.org/)
+    kubecontext             # current kubernetes context (https://kubernetes.io/)
+    terraform               # terraform workspace (https://www.terraform.io)
+    # terraform_version     # terraform version (https://www.terraform.io)
+    aws                     # aws profile (https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html)
+    aws_eb_env              # aws elastic beanstalk environment (https://aws.amazon.com/elasticbeanstalk/)
+    azure                   # azure account name (https://docs.microsoft.com/en-us/cli/azure)
+    gcloud                  # google cloud cli account and project (https://cloud.google.com/)
+    google_app_cred         # google application credentials (https://cloud.google.com/docs/authentication/production)
+    toolbox                 # toolbox name (https://github.com/containers/toolbox)
+    context                 # user@hostname
+    nordvpn                 # nordvpn connection status, linux only (https://nordvpn.com/)
+    ranger                  # ranger shell (https://github.com/ranger/ranger)
+    nnn                     # nnn shell (https://github.com/jarun/nnn)
+    lf                      # lf shell (https://github.com/gokcehan/lf)
+    xplr                    # xplr shell (https://github.com/sayanarijit/xplr)
+    vim_shell               # vim shell indicator (:sh)
+    midnight_commander      # midnight commander shell (https://midnight-commander.org/)
+    nix_shell               # nix shell (https://nixos.org/nixos/nix-pills/developing-with-nix-shell.html)
+    # vi_mode               # vi mode (you don't need this if you've enabled prompt_char)
+    # vpn_ip                # virtual private network indicator
+    todo                    # todo items (https://github.com/todotxt/todo.txt-cli)
+    timewarrior             # timewarrior tracking status (https://timewarrior.net/)
+    taskwarrior             # taskwarrior task count (https://taskwarrior.org/)
+    time                    # current time
+    # =========================[ Line #2 ]=========================
+    newline
+    disk_usage            # disk usage
+    # swap                  # used swap
+    ram                   # free RAM
+    load                  # CPU load
+    # cpu_arch              # CPU architecture
+    # ip                    # ip address and bandwidth usage for a specified network interface
+    # public_ip             # public IP address
+    # proxy                 # system-wide http/https/ftp proxy
+    # battery               # internal battery
+    # wifi                  # wifi speed
+    # example               # example user-defined segment (see prompt_example function below)
+  )
+...
+  typeset -g POWERLEVEL9K_VCS_PREFIX=''
+...
+  typeset -g POWERLEVEL9K_TRANSIENT_PROMPT=same-dir
+--------
+
+$ nano ~/.zshenv
+- 다음의 항목들을 추가
+---- .zshenv ----
+alias hh='history -i -1000'
+alias history='history -i'
+alias bat='/usr/bin/batcat'
+alias cat='/usr/bin/batcat -pp'
+alias ccat='/usr/bin/cat'
+alias less='/usr/bin/less -R'
+alias jq='/usr/bin/jq -C'
+--------
+
+$ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+$ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+$ nano ~/.zshrc
+- 다음의 항목들을 활성화 또는 수정
+---- .zshrc ----
+plugins=(sudo git zsh-syntax-highlighting zsh-autosuggestions)
+--------
+
+- 터미널 종료 후 재실행
+
+
+[nvm 설치]
+* https://github.com/nvm-sh/nvm#installing-and-updating
+
+$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+
+- 터미널 종료 후 재실행
+
+$ nvm --version
+
+$ nvm install --lts
+
+$ nvm ls
+
+$ node --version
+
+$ npm --version
+
+$ npm install -g yarn
+
+$ yarn --version
+
+
+[gvm 설치]
+* https://github.com/moovweb/gvm#installing
+
+$ sudo apt install bison
+
+$ bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+
+$ nano ~/.zshenv
+- 다음의 항목들을 추가
+---- .zshenv ----
+. "$HOME/.gvm/scripts/gvm"
+--------
+
+$ source ~/.gvm/scripts/gvm
+
+$ gvm version
+
+$ gvm install go1.5 -B
+
+$ gvm use go1.5
+
+$ gvm listall
+
+$ gvm install go1.18.10
+
+$ gvm use go1.18.10 --default
+
+$ go version
+
+
+[docker 설치]
+- 기존의 docker 관련 패키지 전부 제거
+$ systemctl --user stop docker-desktop
+$ sudo systemctl stop docker
+$ docker container rm -f $(docker container ls -aq)
+$ docker image rm -f $(docker image ls -q)
+$ sudo apt-get purge docker-desktop docker docker-engine docker.io docker-ce docker-ce-cli docker-compose-plugin containerd runc
+$ sudo apt autoremove --purge
+$ rm -rf ~/.docker
+$ rm -rf ~/.config/docker
+$ rm -rf "~/.config/Docker Desktop"
+
+* https://github.com/docker/docker-install
+
+$ bash < <(curl -sSL https://get.docker.com)
+
+$ sudo apt install uidmap
+
+$ dockerd-rootless-setuptool.sh install
+
+$ nano ~/.zshenv
+- 다음의 항목들을 추가
+---- .zshenv ----
+export DOCKER_HOST=unix:///run/user/1000/docker.sock
+--------
+
+- 터미널 종료 후 재실행
+
+$ docker run hello-world
+
+
+[docker-desktop 설치]
+* https://docs.docker.com/desktop/install/ubuntu/
+-- 아직 안정적이지 않음
+
+
+[rust 설치]
+* https://www.rust-lang.org/tools/install
+
+$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+- 설치 진행
+
+$ cat ~/.zshenv
+- 다음의 항목들이 추가되어 있는지 확인
+---- .zshenv ----
+. "$HOME/.cargo/env"
+--------
+
+- 터미널 종료 후 재실행
+
+$ cargo --version
+
+$ rustc --version
+
+
+[vscode 설치]
+* https://code.visualstudio.com/docs/setup/linux#_debian-and-ubuntu-based-distributions
+
+$ wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+
+$ sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+
+$ sudo apt install code
+
+
+[AWS CLI 버전 2 설치]
+* https://docs.aws.amazon.com/ko_kr/cli/latest/userguide/getting-started-install.html
+
+$ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+
+$ unzip awscliv2.zip
+
+$ sudo ./aws/install
+
+$ aws --version
+
+$ rm awscliv2.zip
+$ rm -rf aws/
+
+
+[AnyDesk 설치]
+* http://deb.anydesk.com/howto.html
+
+$ wget -qO - https://keys.anydesk.com/repos/DEB-GPG-KEY | sudo apt-key add -
+
+$ echo "deb http://deb.anydesk.com/ all main" | sudo tee /etc/apt/sources.list.d/anydesk-stable.list > /dev/null
+
+$ sudo apt update
+
+$ sudo apt install anydesk
+
+- anydesk 실행 후 "이 워크스테이션" 번호 메모
+- "설정" > "보안" 메뉴에서 "참석자가 없는 액세스 허용" 체크, "워크스테이션 암호 변경" 실행
+
+
+[NoMachine 설치]
+* https://downloads.nomachine.com/
+
+- 패키지 다운로드
+$ sudo apt install ~/다운로드/nomachine_8.3.1_1_amd64.deb
+
+- 설치 후 실행해서 port를 3389로 변경
+
+
+[gnome shell extension 설치]
+$ sudo apt install $(apt search gnome-shell-extension | grep ^gnome | cut -d / -f1)
+$ sudo apt purge gnome-shell-extension-hijra
+
+- "확장 관리자"를 실행해서 "Dash to Panel", "Dash to Dock", "Custom Hot Corners" 등을 설치
+
+
+[파티션 도구 설치]
+$ sudo apt install xfsprogs btrfs-progs f2fs-tools exfatprogs udftools gparted
+
+
+[화면보호기 설치]
+$ sudo apt-get remove gnome-screensaver
+$ sudo apt-get install xscreensaver xscreensaver-gl-extra xscreensaver-data-extra
+
+
+[rabbitVCS 설치]
+* http://wiki.rabbitvcs.org/wiki/install/ubuntu
+
+$ sudo add-apt-repository ppa:rabbitvcs/ppa
+
+$ sudo apt install rabbitvcs-nautilus3 rabbitvcs-gedit
+
+
+[Tabby 설치]
+* https://github.com/Eugeny/tabby/blob/master/README.ko-KR.md
+* https://packagecloud.io/eugeny/tabby/install#bash-deb
+
+$ curl -s https://packagecloud.io/install/repositories/eugeny/tabby/script.deb.sh | sudo bash
+
+$ sudo apt install tabby-terminal
+
+- tabby 실행 후 "설정" > "설정 파일" 메뉴에서 아래의 내용을 붙여넣기
+--------
+version: 3
+profiles:
+  - type: ssh
+    name: ad-stage-adcron
+    icon: fas fa-clock-rotate-left
+    options:
+      host: 43.201.24.60
+      user: ec2-user
+      algorithms: {}
+      privateKeys:
+        - file:///home/tinywolf/Works/ZenaAD/ad.pem
+        - file:///Users/sdjeong/Documents/Works/ad.pem
+      auth: publicKey
+    weight: -1
+    group: ad
+    id: ssh:custom:ad-stage-adcron:8155e10c-d135-4525-a88a-bfe7ee382a60
+    color: '#0000ff'
+  - type: ssh
+    name: ad-product-bastion
+    icon: fas fa-door-open
+    options:
+      host: 13.124.177.32
+      user: ec2-user
+      algorithms: {}
+      privateKeys:
+        - file:///home/tinywolf/Works/ZenaAD/ad.pem
+        - file:///Users/sdjeong/Documents/Works/ad.pem
+      auth: publicKey
+    weight: -1
+    group: ad
+    color: '#ff0000'
+    id: ssh:custom:ad-product-bastion:dffea4c5-23cc-4c6c-8273-7996ec8ee08f
+  - type: ssh
+    name: xpla-hypercube-full
+    icon: fas fa-coins
+    options:
+      host: 43.201.21.34
+      user: ubuntu
+      algorithms:
+        hmac:
+          - hmac-sha1
+          - hmac-sha1-etm@openssh.com
+          - hmac-sha2-256
+          - hmac-sha2-256-etm@openssh.com
+          - hmac-sha2-512
+          - hmac-sha2-512-etm@openssh.com
+        kex:
+          - curve25519-sha256
+          - curve25519-sha256@libssh.org
+          - diffie-hellman-group-exchange-sha256
+          - diffie-hellman-group14-sha256
+          - diffie-hellman-group15-sha512
+          - diffie-hellman-group16-sha512
+          - diffie-hellman-group17-sha512
+          - diffie-hellman-group18-sha512
+          - ecdh-sha2-nistp256
+          - ecdh-sha2-nistp384
+          - ecdh-sha2-nistp521
+        cipher:
+          - aes128-ctr
+          - aes128-gcm
+          - aes128-gcm@openssh.com
+          - aes192-ctr
+          - aes256-ctr
+          - aes256-gcm
+          - aes256-gcm@openssh.com
+        serverHostKey:
+          - ecdsa-sha2-nistp256
+          - ecdsa-sha2-nistp384
+          - ecdsa-sha2-nistp521
+          - rsa-sha2-256
+          - rsa-sha2-512
+          - ssh-ed25519
+          - ssh-rsa
+      privateKeys:
+        - file:///home/tinywolf/Works/ZenaAD/cube.pem
+        - file:///Users/sdjeong/Documents/Works/cube.pem
+      auth: publicKey
+      forwardedPorts: []
+      scripts: []
+    weight: -1
+    group: xpla-testnet
+    color: '#ff00ff'
+    id: ssh:custom:xpla-hypercube-full:f1539150-a134-43ee-b3d0-6a71240fdfbc
+  - type: ssh
+    name: xpla-hypercube-sentry2
+    icon: fas fa-shield-cat
+    options:
+      host: 3.35.230.248
+      user: ubuntu
+      algorithms:
+        hmac:
+          - hmac-sha1
+          - hmac-sha1-etm@openssh.com
+          - hmac-sha2-256
+          - hmac-sha2-256-etm@openssh.com
+          - hmac-sha2-512
+          - hmac-sha2-512-etm@openssh.com
+        kex:
+          - curve25519-sha256
+          - curve25519-sha256@libssh.org
+          - diffie-hellman-group-exchange-sha256
+          - diffie-hellman-group14-sha256
+          - diffie-hellman-group15-sha512
+          - diffie-hellman-group16-sha512
+          - diffie-hellman-group17-sha512
+          - diffie-hellman-group18-sha512
+          - ecdh-sha2-nistp256
+          - ecdh-sha2-nistp384
+          - ecdh-sha2-nistp521
+        cipher:
+          - aes128-ctr
+          - aes128-gcm
+          - aes128-gcm@openssh.com
+          - aes192-ctr
+          - aes256-ctr
+          - aes256-gcm
+          - aes256-gcm@openssh.com
+        serverHostKey:
+          - ecdsa-sha2-nistp256
+          - ecdsa-sha2-nistp384
+          - ecdsa-sha2-nistp521
+          - rsa-sha2-256
+          - rsa-sha2-512
+          - ssh-ed25519
+          - ssh-rsa
+      privateKeys:
+        - file:///home/tinywolf/Works/ZenaAD/cube.pem
+        - file:///Users/sdjeong/Documents/Works/cube.pem
+      auth: publicKey
+      forwardedPorts: []
+      scripts: []
+    weight: -1
+    group: xpla-testnet
+    color: '#ff00ff'
+    id: ssh:custom:xpla-hypercube-sentry2:316454e5-6fee-4c8a-a61a-2a2d5dc0d431
+  - type: ssh
+    name: xpla-hypercube-sentry1
+    icon: fas fa-shield-dog
+    options:
+      host: 43.201.1.40
+      user: ubuntu
+      algorithms:
+        hmac:
+          - hmac-sha1
+          - hmac-sha1-etm@openssh.com
+          - hmac-sha2-256
+          - hmac-sha2-256-etm@openssh.com
+          - hmac-sha2-512
+          - hmac-sha2-512-etm@openssh.com
+        kex:
+          - curve25519-sha256
+          - curve25519-sha256@libssh.org
+          - diffie-hellman-group-exchange-sha256
+          - diffie-hellman-group14-sha256
+          - diffie-hellman-group15-sha512
+          - diffie-hellman-group16-sha512
+          - diffie-hellman-group17-sha512
+          - diffie-hellman-group18-sha512
+          - ecdh-sha2-nistp256
+          - ecdh-sha2-nistp384
+          - ecdh-sha2-nistp521
+        cipher:
+          - aes128-ctr
+          - aes128-gcm
+          - aes128-gcm@openssh.com
+          - aes192-ctr
+          - aes256-ctr
+          - aes256-gcm
+          - aes256-gcm@openssh.com
+        serverHostKey:
+          - ecdsa-sha2-nistp256
+          - ecdsa-sha2-nistp384
+          - ecdsa-sha2-nistp521
+          - rsa-sha2-256
+          - rsa-sha2-512
+          - ssh-ed25519
+          - ssh-rsa
+      privateKeys:
+        - file:///home/tinywolf/Works/ZenaAD/cube.pem
+        - file:///Users/sdjeong/Documents/Works/cube.pem
+      auth: publicKey
+      forwardedPorts: []
+      scripts: []
+    weight: -1
+    group: xpla-testnet
+    color: '#ff00ff'
+    id: ssh:custom:xpla-hypercube-sentry1:2076ef91-75e4-455d-856d-edb8f019ad49
+  - type: ssh
+    name: xpla-cube-full
+    icon: fas fa-coins
+    options:
+      host: 3.37.23.212
+      user: ubuntu
+      algorithms:
+        hmac:
+          - hmac-sha1
+          - hmac-sha1-etm@openssh.com
+          - hmac-sha2-256
+          - hmac-sha2-256-etm@openssh.com
+          - hmac-sha2-512
+          - hmac-sha2-512-etm@openssh.com
+        kex:
+          - curve25519-sha256
+          - curve25519-sha256@libssh.org
+          - diffie-hellman-group-exchange-sha256
+          - diffie-hellman-group14-sha256
+          - diffie-hellman-group15-sha512
+          - diffie-hellman-group16-sha512
+          - diffie-hellman-group17-sha512
+          - diffie-hellman-group18-sha512
+          - ecdh-sha2-nistp256
+          - ecdh-sha2-nistp384
+          - ecdh-sha2-nistp521
+        cipher:
+          - aes128-ctr
+          - aes128-gcm
+          - aes128-gcm@openssh.com
+          - aes192-ctr
+          - aes256-ctr
+          - aes256-gcm
+          - aes256-gcm@openssh.com
+        serverHostKey:
+          - ecdsa-sha2-nistp256
+          - ecdsa-sha2-nistp384
+          - ecdsa-sha2-nistp521
+          - rsa-sha2-256
+          - rsa-sha2-512
+          - ssh-ed25519
+          - ssh-rsa
+      privateKeys:
+        - file:///home/tinywolf/Works/ZenaAD/cube.pem
+        - file:///Users/sdjeong/Documents/Works/cube.pem
+      auth: publicKey
+      forwardedPorts: []
+      scripts: []
+    weight: -1
+    group: xpla-testnet
+    color: '#00ffff'
+    id: ssh:custom:xpla-cube-full:ffb584ca-8f4a-486f-9649-f416ae6aa8f3
+  - type: ssh
+    name: xpla-cube-sentry2
+    icon: fas fa-shield-cat
+    options:
+      host: 43.200.101.59
+      user: ubuntu
+      algorithms: {}
+      privateKeys:
+        - file:///home/tinywolf/Works/ZenaAD/cube.pem
+        - file:///Users/sdjeong/Documents/Works/cube.pem
+      auth: publicKey
+    weight: -1
+    group: xpla-testnet
+    color: '#00ffff'
+    id: ssh:custom:xpla-cube-sentry2:472e033a-3dbe-444b-9146-9ce17be21c87
+  - type: ssh
+    name: xpla-cube-sentry1
+    icon: fas fa-shield-dog
+    options:
+      host: 3.36.237.195
+      user: ubuntu
+      algorithms: {}
+      privateKeys:
+        - file:///home/tinywolf/Works/ZenaAD/cube.pem
+        - file:///Users/sdjeong/Documents/Works/cube.pem
+      auth: publicKey
+    weight: -1
+    group: xpla-testnet
+    color: '#00ffff'
+    id: ssh:custom:xpla-cube-sentry1:5e008720-ddcb-456d-9357-1b4dd68856ec
+  - type: ssh
+    name: xpla-testnet-bastion
+    icon: fas fa-door-open
+    options:
+      host: 3.39.229.33
+      user: ubuntu
+      algorithms:
+        hmac:
+          - hmac-sha1
+          - hmac-sha1-etm@openssh.com
+          - hmac-sha2-256
+          - hmac-sha2-256-etm@openssh.com
+          - hmac-sha2-512
+          - hmac-sha2-512-etm@openssh.com
+        kex:
+          - curve25519-sha256
+          - curve25519-sha256@libssh.org
+          - diffie-hellman-group-exchange-sha256
+          - diffie-hellman-group14-sha256
+          - diffie-hellman-group15-sha512
+          - diffie-hellman-group16-sha512
+          - diffie-hellman-group17-sha512
+          - diffie-hellman-group18-sha512
+          - ecdh-sha2-nistp256
+          - ecdh-sha2-nistp384
+          - ecdh-sha2-nistp521
+        cipher:
+          - aes128-ctr
+          - aes128-gcm
+          - aes128-gcm@openssh.com
+          - aes192-ctr
+          - aes256-ctr
+          - aes256-gcm
+          - aes256-gcm@openssh.com
+        serverHostKey:
+          - ecdsa-sha2-nistp256
+          - ecdsa-sha2-nistp384
+          - ecdsa-sha2-nistp521
+          - rsa-sha2-256
+          - rsa-sha2-512
+          - ssh-ed25519
+          - ssh-rsa
+      privateKeys:
+        - file:///home/tinywolf/Works/ZenaAD/cube.pem
+        - file:///Users/sdjeong/Documents/Works/cube.pem
+      auth: publicKey
+      forwardedPorts: []
+      scripts: []
+    weight: -1
+    group: xpla-testnet
+    color: '#ff6600'
+    id: ssh:custom:xpla-testnet-bastion:b421adb7-096c-4f7f-898b-b01aca2f79ad
+  - type: ssh
+    name: xpla-dimension-api
+    icon: fas fa-server
+    options:
+      host: 35.79.95.181
+      user: ubuntu
+      algorithms: {}
+      privateKeys:
+        - file:///home/tinywolf/Works/ZenaAD/dimension.pem
+        - file:///Users/sdjeong/Documents/Works/dimension.pem
+      auth: publicKey
+    weight: -1
+    group: xpla-mainnet
+    id: ssh:custom:xpla-dimension-api:6eb8805b-a7c7-488f-872a-fbadb43642cc
+    color: '#00ff00'
+  - type: ssh
+    name: xpla-dimension-full
+    icon: fas fa-coins
+    options:
+      host: 35.75.33.240
+      user: ubuntu
+      algorithms: {}
+      privateKeys:
+        - file:///home/tinywolf/Works/ZenaAD/dimension.pem
+        - file:///Users/sdjeong/Documents/Works/dimension.pem
+      auth: publicKey
+    weight: -1
+    group: xpla-mainnet
+    color: '#00ff00'
+    id: ssh:custom:xpla-dimension-full:a162daac-95ba-42f3-b05a-3b3d02f462c1
+  - type: ssh
+    name: xpla-dimension-sentry2
+    icon: fas fa-shield
+    options:
+      host: 54.199.122.227
+      user: ubuntu
+      algorithms: {}
+      privateKeys:
+        - file:///home/tinywolf/Works/ZenaAD/dimension.pem
+        - file:///Users/sdjeong/Documents/Works/dimension.pem
+      auth: publicKey
+    weight: -1
+    group: xpla-mainnet
+    color: '#ffff00'
+    id: ssh:custom:xpla-dimension-sentry2:b9d05bfb-d0e9-4c8c-afb7-e7b9cd30e463
+  - type: ssh
+    name: xpla-dimension-sentry1
+    icon: fas fa-shield
+    options:
+      host: 35.79.122.205
+      algorithms: {}
+      privateKeys:
+        - file:///home/tinywolf/Works/ZenaAD/dimension.pem
+        - file:///Users/sdjeong/Documents/Works/dimension.pem
+      auth: publicKey
+      user: ubuntu
+    weight: -1
+    group: xpla-mainnet
+    color: '#ffff00'
+    id: ssh:custom:xpla-dimension-sentry1:49d7f9a1-0bdd-4820-808f-d6b3fcd04411
+  - type: ssh
+    name: xpla-mainnet-bastion
+    options:
+      host: 18.179.45.138
+      user: ubuntu
+      algorithms: {}
+      privateKeys:
+        - file:///home/tinywolf/Works/ZenaAD/dimension.pem
+        - file:///Users/sdjeong/Documents/Works/dimension.pem
+      auth: publicKey
+    weight: -1
+    group: xpla-mainnet
+    icon: fas fa-door-open
+    color: '#ff0000'
+    id: ssh:custom:xpla-mainnet-bastion:add5823d-957f-404b-af84-fe236754f083
+hotkeys:
+  toggle-window: []
+  copy-current-path: []
+  ctrl-c:
+    - Ctrl-C
+  copy:
+    - - Ctrl-Shift-C
+    - - Super-C
+  paste:
+    - - Ctrl-Shift-V
+    - - Shift-Insert
+    - - Super-V
+  select-all:
+    - Ctrl-Shift-A
+  clear: []
+  zoom-in:
+    - Ctrl-=
+    - Ctrl-Shift-=
+  zoom-out:
+    - Ctrl--
+    - Ctrl-Shift--
+  reset-zoom:
+    - Ctrl-0
+  home:
+    - Home
+  end:
+    - End
+  previous-word:
+    - Ctrl-Left
+  next-word:
+    - Ctrl-Right
+  delete-previous-word:
+    - Ctrl-Backspace
+  delete-line:
+    - Ctrl-Shift-Backspace
+  delete-next-word:
+    - Ctrl-Delete
+  search:
+    - Ctrl-Shift-F
+  pane-focus-all:
+    - Ctrl-Shift-I
+  focus-all-tabs:
+    - Ctrl-Alt-Shift-I
+  scroll-to-top:
+    - Ctrl-PageUp
+  scroll-up:
+    - Alt-PageUp
+  scroll-down:
+    - Alt-PageDown
+  scroll-to-bottom:
+    - Ctrl-PageDown
+  restart-telnet-session: []
+  restart-ssh-session: []
+  launch-winscp: []
+  settings-tab: {}
+  settings:
+    - Ctrl-,
+  serial:
+    - Alt-K
+  restart-serial-session: []
+  new-window:
+    - Ctrl-Shift-N
+  new-tab:
+    - Ctrl-Shift-T
+  profile: {}
+  profile-selectors: {}
+  toggle-fullscreen:
+    - F11
+  close-tab:
+    - Ctrl-Shift-W
+  reopen-tab:
+    - Ctrl-Shift-Z
+  toggle-last-tab: []
+  rename-tab:
+    - Ctrl-Shift-R
+  next-tab:
+    - Ctrl-Shift-Right
+    - Ctrl-Tab
+  previous-tab:
+    - Ctrl-Shift-Left
+    - Ctrl-Shift-Tab
+  move-tab-left:
+    - Ctrl-Shift-PageUp
+  move-tab-right:
+    - Ctrl-Shift-PageDown
+  rearrange-panes:
+    - Ctrl-Shift
+  duplicate-tab: []
+  restart-tab: []
+  explode-tab:
+    - Ctrl-Shift-.
+  combine-tabs:
+    - Ctrl-Shift-,
+  tab-1:
+    - Alt-1
+  tab-2:
+    - Alt-2
+  tab-3:
+    - Alt-3
+  tab-4:
+    - Alt-4
+  tab-5:
+    - Alt-5
+  tab-6:
+    - Alt-6
+  tab-7:
+    - Alt-7
+  tab-8:
+    - Alt-8
+  tab-9:
+    - Alt-9
+  tab-10:
+    - Alt-0
+  tab-11: []
+  tab-12: []
+  tab-13: []
+  tab-14: []
+  tab-15: []
+  tab-16: []
+  tab-17: []
+  tab-18: []
+  tab-19: []
+  tab-20: []
+  split-right:
+    - Ctrl-Shift-S
+  split-bottom:
+    - Ctrl-Shift-D
+  split-left: []
+  split-top: []
+  pane-nav-right:
+    - Ctrl-Alt-Right
+  pane-nav-down:
+    - Ctrl-Alt-Down
+  pane-nav-up:
+    - Ctrl-Alt-Up
+  pane-nav-left:
+    - Ctrl-Alt-Left
+  pane-nav-previous:
+    - Ctrl-Alt-[
+  pane-nav-next:
+    - Ctrl-Alt-]
+  pane-nav-1: []
+  pane-nav-2: []
+  pane-nav-3: []
+  pane-nav-4: []
+  pane-nav-5: []
+  pane-nav-6: []
+  pane-nav-7: []
+  pane-nav-8: []
+  pane-nav-9: []
+  pane-maximize:
+    - Ctrl-Alt-Enter
+  pane-increase-vertical: []
+  pane-decrease-vertical: []
+  pane-increase-horizontal: []
+  pane-decrease-horizontal: []
+  close-pane: []
+  switch-profile:
+    - Ctrl-Alt-T
+  profile-selector:
+    - Ctrl-Shift-E
+  command-selector:
+    - Ctrl-Shift-P
+  qc:
+    - Alt-Q
+terminal:
+  searchOptions: {}
+  colorScheme:
+    name: Wez
+    foreground: '#b3b3b3'
+    background: '#000000'
+    cursor: '#53ae71'
+    colors:
+      - '#000000'
+      - '#cc5555'
+      - '#55cc55'
+      - '#cdcd55'
+      - '#5555cc'
+      - '#cc55cc'
+      - '#7acaca'
+      - '#cccccc'
+      - '#555555'
+      - '#ff5555'
+      - '#55ff55'
+      - '#ffff55'
+      - '#5555ff'
+      - '#ff55ff'
+      - '#55ffff'
+      - '#ffffff'
+  font: D2Coding
+  pasteOnMiddleClick: true
+  copyOnSelect: true
+  copyAsHTML: false
+  bell: visual
+  customColorSchemes: []
+  showTabProfileIcon: true
+  hideCloseButton: true
+  fallbackFont: MesloLGS NF
+  fontSize: 16
+ssh:
+  knownHosts:
+    - host: 3.39.229.33
+      port: 22
+      type: ecdsa-sha2-nistp256
+      digest: N4Zykl137Wgl5PqxDSX3X6Y4u3CS6sQ8j4ddTGnq2Xo=
+    - host: 18.179.45.138
+      port: 22
+      type: ecdsa-sha2-nistp256
+      digest: rOEHBfmSOdYwTe/pQ29Lyw/y5slkNp6plN3jNtDU7LY=
+    - host: 13.124.177.32
+      port: 22
+      type: ecdsa-sha2-nistp256
+      digest: I1XmhA1qE2Y4dshRbeafCXRFb+va5t9FeBP7xfd3Kqg=
+    - host: 3.37.23.212
+      port: 22
+      type: ecdsa-sha2-nistp256
+      digest: g02WI69Ci0w6eutzL8Wnd0eIvDGCWonu/aISo8mxACw=
+    - host: 43.201.24.60
+      port: 22
+      type: ecdsa-sha2-nistp256
+      digest: lRbMSSX5NUs8D7uESARHWYaVfKBS+wYH40rDoSNen/E=
+    - host: 43.201.21.34
+      port: 22
+      type: ecdsa-sha2-nistp256
+      digest: sPOUFprWocnpGxXLQ5C1uXD1nnCmWagSsKwJPg66f3k=
+    - host: 43.201.1.40
+      port: 22
+      type: ecdsa-sha2-nistp256
+      digest: iow6S10J2Tm5sPvbLKIdNn0eaG3WyCLanAffqBwa6hg=
+    - host: 3.35.230.248
+      port: 22
+      type: ecdsa-sha2-nistp256
+      digest: 5rh+92tbr32y+9SRDMTCF2J12ajVxdpiYcGYLNzvnUw=
+clickableLinks:
+  modifier: ctrlKey
+accessibility: {}
+appearance: {}
+hacks: {}
+language: ko-KR
+enableWelcomeTab: false
+pluginBlacklist: []
+profileDefaults: {}
+qc:
+  cmds: []
+configSync:
+  host: https://api.tabby.sh
+  token: ''
+  configID: null
+  auto: false
+  parts:
+    hotkeys: true
+    appearance: true
+    vault: true
+--------
+- "저장 및 적용" 실행
+
+
+[telegram 설치]
+* https://desktop.telegram.org/
+
+$ sudo snap install telegram-desktop
+
+- telegram 실행 후 로그인
+
+
+[slack 설치]
+* https://slack.com/intl/ko-kr/downloads/linux
+
+$ sudo snap install slack
+
+- slack 실행 후 로그인
+
+
+
+[notion 설치]
+* https://notion-enhancer.github.io/getting-started/installation/
+
+$ echo "deb [trusted=yes] https://apt.fury.io/notion-repackaged/ /" | sudo tee /etc/apt/sources.list.d/notion-repackaged.list
+
+$ sudo apt update
+
+$ sudo apt install notion-app-enhanced
+
+- notion enhanced 실행 후 로그인
+
+
+[discord 설치]
+$ sudo snap install discord
+- snap으로 설치한 디스코드는 BetterDiscord를 설치하지 못함
+$ sudo snap purge discord
+
+* https://discord.com/
+- 리눅스용 다운로드 discord-x.x.x.deb
+$ sudo apt install ~/다운로드/discord-0.0.24.deb
+
+- discord 실행 후 로그인
+
+* https://github.com/BetterDiscord/BetterDiscord
+
+- 다운로드 BetterDiscord-Linux.AppImage
+$ chmod +x ~/다운로드/BetterDiscord-Linux.AppImage
+$ ~/다운로드/BetterDiscord-Linux.AppImage
+- 기존 discord를 선택해서 설치
+
+- "설정" > "BETTERDISCORD" > "플러그인" 메뉴로 이동
+- "plugin 폴더 열기" 실행
+- 아래의 2개의 플러그인 파일을 다운로드 한 후 해당 폴더로 이동
+* https://betterdiscord.app/plugin/PluginRepo
+* https://betterdiscord.app/plugin/ThemeRepo
+- PluginRepo.plugin.js, ThemeRepo.plugin.js
+
+- "Library Missing" 창이 뜨면 "Download Now" 실행
+- BDFDB, PluginRepo, ThemeRepo 3가지를 활성화
+
+- "설정" > "BETTERDISCORD" > "Plugin Repo" 메뉴로 이동
+- "translator"를 검색 후 다운로드
+- "설정" > "BETTERDISCORD" > "플러그인" 메뉴로 이동 후 "Translator"를 활성화
+
+- 디스코드의 메시지 우상단 "..." 메뉴에 번역 기능 추가됨
+- 디스코드의 입력창 우측에 번역 버튼 추가됨
+
+
+[gimp 설치]
+$ sudo apt install gimp
+
+
+[DBeaver CE 설치]
+* https://dbeaver.io/download/
+$ sudo snap install dbeaver-ce
+
+
+[HomeBrew 설치]
+* https://brew.sh/index_ko
+
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+$ echo '# Set PATH, MANPATH, etc., for Homebrew.' >> /home/tinywolf/.zprofile
+$ echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/tinywolf/.zprofile
+$ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+$ brew --version
+
+
+[VirtualBox 설치]
+* https://www.virtualbox.org/wiki/Linux_Downloads
+
+$ wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
+
+$ echo "deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
+
+$ sudo apt update
+
+$ apt search virtualbox-
+
+$ sudo apt install virtualbox-7.0
+
+- Extension Pack 다운로드
+* https://www.virtualbox.org/wiki/Downloads
+- 다운로드한 vbox-extpack를 실행 후 설치
+
+- "파일" > "환경 설정" > "일반" 메뉴의 "기본 머신 폴더" 항목 설정
+
+- "파일" > "환경 설정" > "디스플레이" 메뉴의 아래의 항목들 설정
+- "최대 게스트 화면 크기"는 "힌트"로 설정
+- "너비"는 1920, "높이"는 1080으로 설정
+
+- "파일" > "도구" > "네트워크" 메뉴 실행
+- "NAT Networks" 탭에서 "만들기" 실행
+- "속성"을 편집해서 "Name" 항목을 "NatNetwork"로, "IPv4 Prefix" 항목을 "10.0.10.0/24"로 설정
+
+- vrdp 인증 방식을 simple로 변경
+$ VBoxManage setproperty vrdeauthlibrary "VBoxAuthSimple"
+
+- 사용자 그룹 추가
+$ sudo usermod -a -G vboxusers $USER
+- 그룹을 추가하고 재부팅해야 네트워크 어뎁터와 USB 연결 등이 정상 작동
+
+- "머신" > "추가" 메뉴를 통해서 기존의 가상머신들 등록
+	win10
+	win10-app
+	win10-dev
+	Ubuntu 22.04 LTS
+	ubuntu-dev
+	ubuntu-dev1
+	ubuntu-dev2
+	ubuntu-dev3
+
+- dev1~dev3 머신의 네트워크는 "NAT 네트워크"로 "NatNetwork"를 선택하고
+- 부팅하여 ip 설정은 아래와 같이
+	dev1: IPv4 수동 10.0.10.11 255.255.255.0 10.0.10.1 DNS 10.0.10.1
+	dev2: IPv4 수동 10.0.10.12 255.255.255.0 10.0.10.1 DNS 10.0.10.1
+	dev3: IPv4 수동 10.0.10.13 255.255.255.0 10.0.10.1 DNS 10.0.10.1
+
+
+[sublime text 설치]
+* https://www.sublimetext.com/docs/linux_repositories.html
+
+$ wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg > /dev/null
+
+$ echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+
+$ sudo apt update
+
+$ sudo apt install sublime-text
+
+- "Preferences" > "Settings" 메뉴 실행 후 아래의 내용 추가
+---- Preferences.sublime-settings ----
+{
+	"font_face": "D2Coding ligature",
+	"font_size": 14,
+
+	"hardware_acceleration": "opengl"
+}
+--------
+
+- 패키지 컨트롤 설치
+* https://packagecontrol.io/installation
+- 다음의 패키지들 설치
+	BracketHighlighter
+	SideBarEnhancements
+	SublimeCodeIntel
+	SublimeLinter
+	SublimeLinter-anno
+	SublimeLinter-bandit
+	SublimeLinter-clang
+	SublimeLinter-gjslint
+	SublimeLinter-golint
+	SublimeLinter-json
+	SublimeLinter-lua
+	SublimeLinter-tslint
+	SublimeLinter-xmllint
+	SublimeLinter-contrib-yamllint
+	Diffy
+	Alignment
+	
